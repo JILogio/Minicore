@@ -52,7 +52,7 @@ var progresoController = {
 
                 return res.status(200).json(resultado)
             } else{
-                return res.status(404).json({ error: 'Error dates' });
+                return res.status(404).json({ error: 'Error in dates' });
             }
         } catch (err) {
             return res.status(200).send({
