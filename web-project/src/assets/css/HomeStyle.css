@@ -1,0 +1,45 @@
+.Welcome {
+ background-image: url(../wallpapers/Texturelabs_LensFX_180L.jpg);
+ aspect-ratio: 3/1;
+ background-repeat: no-repeat;
+}
+
+.container1 {
+ padding: 120px;
+ display: flex;
+ flex-direction: column;
+ justify-content: center;
+ align-items: center;
+}
+
+div h1 {
+ color: white;
+ font-size: 70px;
+}
+
+div p {
+ color: white;
+ font-size: 15px;
+}
+
+.started {
+ background-color: #000000;
+ color: #f2f2f2;
+ border: none;
+ cursor: pointer;
+ padding: 10px 20px;
+ margin: 5px;
+ text-decoration: none;
+ border-radius: 5px;
+}
+   
+.started:hover {
+ background-color: #ddd;
+ color: black;
+}
+
+@media (max-width: 767.98px) {
+    div h1 {
+     font-size: 50px;
+    }
+}

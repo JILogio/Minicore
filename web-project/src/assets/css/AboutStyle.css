@@ -1,0 +1,32 @@
+.Tittle {
+ text-align: center;
+ padding: 20px;
+ background-image: url(../wallpapers/Texturelabs_LensFX_173L.jpg);
+ background-repeat: no-repeat;
+}
+
+.Tittle p {
+ font-size: 15px;
+}
+
+.Tittle h2 {
+ text-align: start;
+ margin-left: 155px;
+}
+
+.container {
+ display: flex;
+ flex-direction: column;
+}
+
+img {
+ aspect-ratio: 1/1;
+ width: 300px;
+ margin: 0 50px;
+}
+
+@media (min-width: 700px) {
+    .container {
+      flex-direction: row;
+    }
+}
