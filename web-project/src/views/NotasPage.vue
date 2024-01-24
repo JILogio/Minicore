@@ -32,7 +32,7 @@
     </div>
 </template>
 
-<style scoped src="@/assets/css/AdminProductStyle.css"></style>
+<style scoped src="@/assets/css/ProgresoStyle.css"></style>
 
 <script>
 import axios from 'axios';
@@ -69,7 +69,7 @@ export default {
             axios.get(this.url+'Notas')
                 .then(res => {
                     if(res.data.status == 'success'){
-                        this.notas = res.data.notas;
+                        this.notas = res.data.notas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
                     }
                 })
                 .catch (err => {

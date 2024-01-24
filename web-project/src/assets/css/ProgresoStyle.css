@@ -23,3 +23,22 @@ th {
 .center button{
  margin: 20px;
 }
+
+.row {
+ display: flex;
+ align-items: center;    justify-content: flex-start;
+ width: 50%;
+ margin-left: auto;
+ margin-right: auto;
+ padding: 20px;
+}
+
+.half-row {
+ width: 50%;
+ padding: 20px;
+}
+
+.button-progreso3 {
+ display: flex;
+ justify-content: center;
+}

@@ -40,7 +40,7 @@
                 </tr>
             </tbody>
         </table>
-        <h2>Progreso 3</h2>
+<!--    <h2>Progreso 3</h2>
         <input type='date' v-model="fechaInicial3">
         <input type="date" v-model="fechaFinal3">
         <button @click="getProgreso3">Obtener</button>
@@ -57,32 +57,54 @@
                     <td>{{ progreso.cantidadNotas }}</td>
                 </tr>
             </tbody>
-        </table>
+        </table>-->
     </div>
 
     <!-- Alumno Template -->
     <div v-if="tabSelected === 'alumno'">
-        <h2>Alumnos</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Alumno</th>
-                    <th>P1</th>
-                    <th>P2</th>
-                    <th>P3</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="product in products" :key="product.id">
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.price }}</td>
-                </tr>
-            </tbody>
-        </table>
+        <h1>Alumnos</h1>
+        <div class="row">
+            <div class="half-row">
+                <h2>Progreso 1</h2>
+                <input type='date' v-model="fechaInicial1">
+                <input type="date" v-model="fechaFinal1">
+                <p>Cantidad de notas</p>
+                <input type="number" v-model="notas1">
+            </div>
+            <div class="half-row">
+                <h2>Progreso 2</h2>
+                <input type='date' v-model="fechaInicial2">
+                <input type="date" v-model="fechaFinal2">
+                <p>Cantidad de notas</p>
+                <input type="number" v-model="notas2">
+            </div>
+            <button @click="getProgreso3">Obtener</button>
+        </div>
+        
+        <div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Alumno</th>
+                        <th>P1</th>
+                        <th>P2</th>
+                        <th>P3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="nota in notas" :key="nota._id">
+                        <td>{{ nota.nombre }}</td>
+                        <td>{{ nota.promedio1 }}</td>
+                        <td>{{ nota.promedio2 }}</td>
+                        <td>{{ nota.promedio3 }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
 
-<style scoped src="@/assets/css/AdminProductStyle.css"></style>
+<style scoped src="@/assets/css/ProgresoStyle.css"></style>
  
 <script>
 import axios from 'axios';
@@ -96,14 +118,12 @@ export default {
        progreso: [],
        progreso1: [],
        progreso2: [],
-       progreso3: [],
        fechaInicial1: '',
        fechaFinal1: '',
        fechaInicial2: '',
        fechaFinal2: '',
-       fechaInicial3: '',
-       fechaFinal3: '',
        tabSelected: '',
+       notas: ''
      };
   },
   methods: {
@@ -136,21 +156,25 @@ export default {
             console.error('Error progreso:', error);
         }
     },
+    async AlumnoView(){
+        this.tabSelected = 'alumno'
+    },
     async getProgreso3() {
         try {
-            var dates = {
-                inicial: this.fechaInicial3.toString(),
-                final: this.fechaFinal3.toString()
+            var data = {
+                inicial1: this.fechaInicial1.toString(),
+                final1: this.fechaFinal1.toString(),
+                cantidad1: this.notas1,
+                inicial2: this.fechaInicial2.toString(),
+                final2: this.fechaFinal2.toString(),
+                cantidad2: this.notas2,
             }
 
-            const response = await axios.post(this.url+'CantidadProgreso',dates);
-            this.progreso3 = response.data;
+            const response = await axios.post(this.url+'Progreso',data);
+            this.notas = response.data;
         } catch (error) {
             console.error('Error progreso:', error);
         }
-    },
-    async AlumnoView(){
-        this.tabSelected = 'alumno'
     },
   },
 

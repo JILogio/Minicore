@@ -16,7 +16,7 @@
     </div>
 </template>
 
-<style scoped src="@/assets/css/AdminProductStyle.css"></style>
+<style scoped src="@/assets/css/ProgresoStyle.css"></style>
 
 <script>
 import axios from 'axios';

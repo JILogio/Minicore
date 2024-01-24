@@ -8,7 +8,6 @@ import AlumnosPage from '@/views/AlumnosPage.vue'
 import AddNota from '@/views/AddNota.vue'
 import NotasPage from '@/views/NotasPage.vue'
 import ProgresoPage from '@/views/ProgresoPage.vue'
-import store from '@/store'
 
 const routes = [
     {path: '/',component: HomePage},
@@ -28,5 +27,4 @@ const router = createRouter({
 
 const app = createApp(App)
 app.use(router)
-app.use(store)
 app.mount('#app')

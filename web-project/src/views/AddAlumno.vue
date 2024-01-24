@@ -10,7 +10,7 @@
     </div>
 </template>
 
-<style scoped src="@/assets/css/AddProductStyle.css"></style>
+<style scoped src="@/assets/css/AddAlumnoStyle.css"></style>
    
 <script>
 import axios from 'axios';
