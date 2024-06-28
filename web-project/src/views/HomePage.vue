@@ -2,7 +2,7 @@
     <section class="Welcome">
         <div class="container1">
             <h1>Proyecto Minicore</h1>
-            <p>Realizado por: Ismael Ordoñez</p>
+            
         </div>
     </section>
 </template>
