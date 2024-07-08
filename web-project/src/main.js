@@ -11,6 +11,7 @@ import ProgresoPage from '@/views/ProgresoPage.vue'
 import LoginPage from './views/LoginPage.vue'
 import LogoutPage from './views/LogoutPage.vue'
 import UserPage from './views/UserPage.vue'
+import EncriptionPage from './EncriptionPage.vue'
 import { createAuth0 } from '@auth0/auth0-vue'
 
 const routes = [
@@ -25,6 +26,7 @@ const routes = [
     {path: '/login' ,component: LoginPage},
     {path: '/logout' ,component: LogoutPage},
     {path: '/user' ,component: UserPage},
+    {path: '/encrypt' ,component: EncriptionPage},
 ]
 
 const router = createRouter({
