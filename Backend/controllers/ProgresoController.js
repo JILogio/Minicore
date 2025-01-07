@@ -57,7 +57,7 @@ var progresoController = {
         } catch (err) {
             return res.status(200).send({
                 status: 'error',
-                message: 'Error en la peticion'
+                message: 'Error en la peticion:' + err
             });
         }
     },
@@ -157,7 +157,7 @@ var progresoController = {
               }
 
               var data2 = []
-              
+
               for(let i = 0; i < resultado2.length; i++) {
                 var sum = 0
                 for(let j = 0; j < resultado2[i].notas.length; j++){

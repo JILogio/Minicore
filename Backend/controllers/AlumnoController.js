@@ -2,7 +2,7 @@ const Alumno = require('../models/Alumno')
 
 var AlumnoController = {
     addAlumno: async (req,res) => {
-        try {  
+        try {
             const alumno = new Alumno({
                 nombre: req.body.nombre
             })
@@ -12,7 +12,7 @@ var AlumnoController = {
         } catch (err) {
             return res.status(200).send({
                 status: 'error',
-                message: 'Faltan datos o inválidos'
+                message: 'Faltan datos o inválidos:' + err
             });
         }
     },
@@ -34,7 +34,7 @@ var AlumnoController = {
         } catch (err) {
             return res.status(200).send({
                 status: 'error',
-                message: 'Error al devolver datos'
+                message: 'Error al devolver datos:' + err
             });
         }
     },
@@ -42,19 +42,19 @@ var AlumnoController = {
     search: async (req, res) => {
         try {
             const searchString = req.query.search;
-    
+
             const alumno = await Alumno.find({"$or": [
                 {"_id": searchString},
                 {"nombre": searchString}
             ]},).exec();
-    
+
             if (!alumno || alumno.length <= 0) {
                 return res.status(404).send({
                     status: 'error',
                     message: 'No hay datos que coincidan con la búsqueda'
                 });
             }
-    
+
             return res.send({
                 status: 'success',
                 alumno
@@ -62,7 +62,7 @@ var AlumnoController = {
         } catch (err) {
             return res.status(500).send({
                 status: 'error',
-                message: 'Error en la petición'
+                message: 'Error en la petición:' + err
             });
         }
     },

@@ -2,7 +2,6 @@ const request = require('supertest'); // Para simular solicitudes
 const app = require('../app'); // Reemplaza con la configuración de tu app
 const Alumno = require('../models/Alumno');
 const Nota = require('../models/Nota');
-const { obtenerCantidadNotasProgreso } = require('../controllers/ProgresoController');
 
 jest.mock('../models/Alumno');
 jest.mock('../models/Nota');

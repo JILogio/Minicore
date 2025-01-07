@@ -2,7 +2,7 @@ const Nota = require('../models/Nota')
 
 var notaController = {
     addNota: async (req,res) => {
-        try {  
+        try {
             const nota = new Nota({
                 nota: req.body.nota,
                 fecha: req.body.fecha,
@@ -14,7 +14,7 @@ var notaController = {
         } catch (err) {
             return res.status(200).send({
                 status: 'error',
-                message: 'Faltan datos o inválidos'
+                message: 'Faltan datos o inválidos:' + err
             });
         }
     },
@@ -36,7 +36,7 @@ var notaController = {
         } catch (err) {
             return res.status(200).send({
                 status: 'error',
-                message: 'Error al devolver datos'
+                message: 'Error al devolver datos' + err
             });
         }
     },
@@ -44,19 +44,19 @@ var notaController = {
     search: async (req, res) => {
         try {
             const searchString = req.query.search;
-    
+
             const nota = await Nota.find({"$or": [
                 {"_id": searchString},
                 {"nota": searchString}
             ]},).exec();
-    
+
             if (!nota || nota.length <= 0) {
                 return res.status(404).send({
                     status: 'error',
                     message: 'No hay datos que coincidan con la búsqueda'
                 });
             }
-    
+
             return res.send({
                 status: 'success',
                 nota
@@ -64,7 +64,7 @@ var notaController = {
         } catch (err) {
             return res.status(500).send({
                 status: 'error',
-                message: 'Error en la petición'
+                message: 'Error en la petición:' + err
             });
         }
     },
