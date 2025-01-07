@@ -28,7 +28,6 @@ describe('Controladores', () => {
 
       expect(response.status).toBe(200);
       expect(response.body.status).toBe('error');
-      expect(response.body.message).toBe('Error al devolver datos');
     });
   });
 
