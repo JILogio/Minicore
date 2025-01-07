@@ -1,4 +1,3 @@
-const Nota = require('../models/Nota')
 const Alumno = require('../models/Alumno')
 
 var progresoController = {
