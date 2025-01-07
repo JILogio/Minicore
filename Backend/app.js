@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 // Modulos node para crear servidor
 var express = require('express');
 var bodyParser = require('body-parser');
 
 // Ejecutar express (http)
-var app = express()
+var app = express();
 
 // Cargar ficheros rutas
 var routes = require('./routes/routes');
@@ -25,7 +25,7 @@ app.use((req, res, next) => {
 });
 
 // Añadir prefijos a rutas / Cargar rutas
-app.use('/api',routes)
+app.use('/api',routes);
 
 // Exportar modulo (fichero actual)
 module.exports = app;
