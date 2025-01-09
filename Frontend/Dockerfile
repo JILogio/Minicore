@@ -3,6 +3,5 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
 EXPOSE 8080
-CMD ["npx", "serve", "-s", "dist"]
+CMD ["npm", "run", "serve", "--", "--port", "8080"]
