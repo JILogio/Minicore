@@ -54,8 +54,8 @@ jobs:
       - run:
           name: Construir imágenes Docker
           environment:
-            DOCKER_HOST: tcp://172.31.25.69:2375
             DOCKER_TLS_VERIFY: 0
+            DOCKER_HOST: tcp://172.31.25.69:2375
           command: |
             docker build -t test/backend ./Backend
             docker build -t test/frontend ./Frontend
