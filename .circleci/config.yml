@@ -55,6 +55,7 @@ jobs:
           name: Construir imágenes Docker
           environment:
             DOCKER_HOST: tcp://localhost:2375
+            DOCKER_TLS_VERIFY: 0
           command: |
             docker build -t test/backend ./Backend
             docker build -t test/frontend ./Frontend
@@ -78,6 +79,7 @@ jobs:
           name: Desplegar contenedores
           environment:
             DOCKER_HOST: tcp://localhost:2375
+            DOCKER_TLS_VERIFY: 0
           command: |
             docker run -d -p 3900:3900 --name backend test/backend
             docker run -d -p 8080:8080 --name frontend test/frontend
