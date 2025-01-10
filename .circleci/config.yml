@@ -10,6 +10,9 @@ executors:
   docker-executor:
     docker:
       - image: cimg/base:stable  # Imagen base para Docker
+        auth:
+            username: $DOCKER_USER  # Variables de entorno configuradas en CircleCI
+            password: $DOCKER_PASS
 
 jobs:
   pre_build:
