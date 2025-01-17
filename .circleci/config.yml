@@ -1,0 +1,136 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@7.0.0
+
+executors:
+  node-executor:
+    docker:
+      - image: node:18  # Imagen base para Node.js
+  docker-executor:
+    docker:
+      - image: cimg/base:stable  # Imagen base para Docker
+
+jobs:
+  pre_build:
+    executor: node-executor
+    steps:
+      - checkout
+      - run:
+          name: Instalar dependencias Backend
+          command: |
+            cd Backend
+            npm install
+      - run:
+          name: Instalar dependencias Frontend
+          command: |
+            cd Frontend
+            npm install
+      - run:
+          name: Validación estática Backend
+          command: |
+            cd Backend
+            npm install eslint
+            npx eslint --fix
+            npx eslint .
+      - run:
+          name: Validación estática Frontend
+          command: |
+            cd Frontend
+            npm install eslint
+            npx eslint .
+      - run:
+          name: Análisis de dependencias
+          command: |
+            cd Backend
+            npm audit --production || true
+            cd ../Frontend
+            npm audit --production || true
+
+  build:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Construir imágenes Docker
+          command: |
+            docker build -t test/backend ./Backend
+            docker build -t test/frontend ./Frontend
+      - run:
+          name: Etiquetar imágenes para Docker Hub
+          command: |
+            docker tag test/backend $DOCKER_USER/test:backend
+            docker tag test/frontend $DOCKER_USER/test:frontend
+      - run:
+          name: Subir imágenes a Docker Hub
+          command: |
+            echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+            docker push $DOCKER_USER/test:backend
+            docker push $DOCKER_USER/test:frontend
+
+  sast_analysis:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Instalar Trivy
+          command: |
+            apk add --no-cache curl
+            curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+      - run:
+          name: Escanear imágenes Docker con Trivy
+          command: |
+            trivy image test/backend
+            trivy image test/frontend
+      - run:
+          name: Escanear dependencias Backend
+          command: |
+            trivy fs --severity HIGH,CRITICAL ./Backend
+      - run:
+          name: Escanear dependencias Frontend
+          command: |
+            trivy fs --severity HIGH,CRITICAL ./Frontend
+
+  test:
+    executor: node-executor
+    steps:
+      - checkout
+      - run:
+          name: Ejecutar pruebas Backend
+          command: |
+            cd Backend
+            npm install
+            npm test
+
+  deploy:
+    executor: docker-executor
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Descargar imágenes de Docker Hub
+          command: |
+            docker pull $DOCKER_USER/test:backend
+            docker pull $DOCKER_USER/test:frontend
+      - run:
+          name: Desplegar contenedores
+          command: |
+            docker run -d -p 3900:3900 --name backend $DOCKER_USER/test:backend
+            docker run -d -p 8080:8080 --name frontend $DOCKER_USER/test:frontend
+
+workflows:
+  version: 2
+  pipeline:
+    jobs:
+      - pre_build
+      - build:
+          requires:
+            - pre_build
+      - test:
+          requires:
+            - build
+      - deploy:
+          requires:
+            - test
