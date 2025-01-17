@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var app = require('./app');
 var port = 3900;
 
-mongoose.connect('mongodb+srv://freeacount34:sC9CYxqYuKMmoiEr@cluster0.0k7kz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
+mongoose.connect('mongodb+srv://freeacount34:FEwUF8UgSMchNOVr@cluster0.0k7kz.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
         .then(() => {
             console.log('Conectado a la base de datos');
             /*
