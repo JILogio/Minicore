@@ -69,6 +69,20 @@ jobs:
             cd Backend
             npm test
 
+  trigger-main-pipeline:
+    executor: node-executor
+    steps:
+      - run:
+          name: Trigger pipeline on main branch
+          command: |
+            curl -u ${CIRCLECI_API_TOKEN}: \
+                 -X POST \
+                 -H "Content-Type: application/json" \
+                 -d '{
+                       "branch": "main"
+                     }' \
+                 https://circleci.com/api/v2/project/github/JILogio/Minicore/pipeline
+
 workflows:
   version: 2
   pipeline:
@@ -77,3 +91,7 @@ workflows:
       - tests:
           requires:
             - validations
+      - trigger-main-pipeline:
+          requires:
+            - tests
+            
