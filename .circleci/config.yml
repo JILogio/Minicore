@@ -131,6 +131,9 @@ workflows:
       - test:
           requires:
             - build
+      - sast_analysis:
+          requires:
+            - build
       - deploy:
           requires:
             - test
