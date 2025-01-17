@@ -13,46 +13,60 @@ jobs:
     executor: node-executor
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - node-dependencies-Backend-{{ checksum "Backend/package-lock.json" }}
+            - node-dependencies-Frontend-{{ checksum "Frontend/package-lock.json" }}
       - run:
           name: Instalar dependencias Backend
           command: |
             cd Backend
-            npm install
+            npm ci
       - run:
           name: Instalar dependencias Frontend
           command: |
             cd Frontend
-            npm install
+            npm ci
+      - save_cache:
+          key: node-dependencies-Backend-{{ checksum "Backend/package-lock.json" }}
+          paths:
+            - Backend/node_modules
+      - save_cache:
+          key: node-dependencies-Frontend-{{ checksum "Frontend/package-lock.json" }}
+          paths:
+            - Frontend/node_modules
       - run:
           name: Validación estática Backend
           command: |
             cd Backend
-            npm install eslint
-            npx eslint --fix
-            npx eslint .
+            npx eslint --fix .
       - run:
           name: Validación estática Frontend
           command: |
             cd Frontend
-            npm install eslint
-            npx eslint .
+            npx eslint --fix .
       - run:
-          name: Análisis de dependencias
+          name: Análisis de dependencias Backend
           command: |
             cd Backend
-            npm audit --production || true
-            cd ../Frontend
-            npm audit --production || true
+            npm audit --production || echo "Audit completado con advertencias"
+      - run:
+          name: Análisis de dependencias Frontend
+          command: |
+            cd Frontend
+            npm audit --production || echo "Audit completado con advertencias"
 
   tests:
     executor: node-executor
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - node-dependencies-Backend-{{ checksum "Backend/package-lock.json" }}
       - run:
           name: Ejecutar pruebas Backend
           command: |
             cd Backend
-            npm install
             npm test
 
 workflows:
@@ -60,4 +74,6 @@ workflows:
   pipeline:
     jobs:
       - validations
-      - tests
+      - tests:
+          requires:
+            - validations
